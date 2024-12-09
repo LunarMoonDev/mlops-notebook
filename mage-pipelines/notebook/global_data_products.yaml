@@ -1,0 +1,8 @@
+training_set:
+  object_type: pipeline
+  object_uuid: data_preparation
+  outdated_after:
+    seconds: 600
+  repo_path: /home/src/notebook
+  settings:
+    build: {}
