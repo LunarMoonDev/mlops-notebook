@@ -3,3 +3,7 @@
 **.pyc
 **.db
 **/mlruns/
+
+
+**/mage_data/
+**/mlruns/
