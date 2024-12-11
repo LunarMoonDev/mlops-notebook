@@ -1,0 +1,32 @@
+blocks:
+  time_metrics__rmse_:
+    configuration:
+      chart_type: time series line chart
+      design:
+        x_grid_lines_hidden: true
+        y_grid_lines_hidden: true
+        y_values_smooth: true
+      group_by:
+      - start_time
+      metrics:
+      - aggregation: average
+        column: rmse_Booster
+      time_interval: minute
+      x_axis_label_format: h:mm
+      x_grid_lines_hidden: true
+      y_axis_label_format: return value
+      y_grid_lines_hidden: true
+      y_values_smooth: true
+    data_source:
+      type: chart_code
+    error: null
+    name: Time metrics (RMSE)
+    name_new: Time metrics (RMSE)
+    skip_render: false
+    type: chart
+    uuid: time_metrics__rmse_
+layout:
+- - block_uuid: time_metrics__rmse_
+    height: 500
+    max_width_percentage: 50
+    width: 1

@@ -5,5 +5,6 @@
 **/mlruns/
 
 
-**/mage_data/
+**/mage_data/notebook/.cache/
+**/mage_data/notebook/pipelines/
 **/mlruns/
