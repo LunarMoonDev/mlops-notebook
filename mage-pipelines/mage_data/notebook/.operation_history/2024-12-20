@@ -1,0 +1,2 @@
+{"operation": "create", "resource": {"type": "pipeline", "uuid": "automatic_retraining"}, "timestamp": 1734685688, "user": null}
+{"operation": "create", "resource": {"type": "pipeline", "uuid": "predict"}, "timestamp": 1734686545, "user": null}
