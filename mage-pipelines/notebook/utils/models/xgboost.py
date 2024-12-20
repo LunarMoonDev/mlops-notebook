@@ -8,7 +8,7 @@ import scipy
 import xgboost as xgb
 from hyperopt import STATUS_OK, Trials, fmin, hp, tpe
 from hyperopt.pyll import scope
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, root_mean_squared_error
 from xgboost import Booster, DMatrix
 
 from utils.hyperparameters.shared import build_hyperparameters_space
@@ -38,8 +38,8 @@ def train_model(
     y_pred = model.predict(validation_set)
 
     y_val = validation_set.get_label()  # Corrected to extract labels from DMatrix
-    rmse = mean_squared_error(y_val, y_pred, squared=False)
-    mse = mean_squared_error(y_val, y_pred, squared=True)
+    rmse = root_mean_squared_error(y_val, y_pred)
+    mse = mean_squared_error(y_val, y_pred)
 
     return model, dict(mse=mse, rmse=rmse), y_pred
 
