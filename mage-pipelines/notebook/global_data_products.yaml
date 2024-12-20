@@ -6,3 +6,13 @@ training_set:
   repo_path: /home/src/notebook
   settings:
     build: {}
+xgboost:
+  object_type: pipeline
+  object_uuid: xgboost_training
+  outdated_after:
+    seconds: 86400
+  outdated_starting_at:
+    hour_of_day: 12
+  repo_path: /home/src/notebook
+  settings:
+    xgboost: {}
