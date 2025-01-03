@@ -1,0 +1,199 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: markdown
+  name: running_operations_in_production
+  retry_config: null
+  status: updated
+  timeout: null
+  type: markdown
+  upstream_blocks: []
+  uuid: running_operations_in_production
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: markdown
+  name: create_iam_policy_to_deploy_image
+  retry_config: null
+  status: updated
+  timeout: null
+  type: markdown
+  upstream_blocks: []
+  uuid: create_iam_policy_to_deploy_image
+- all_upstream_blocks_executed: true
+  color: blue
+  configuration: {}
+  downstream_blocks:
+  - infrastructure_setup
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: permissions
+  retry_config: null
+  status: updated
+  timeout: null
+  type: custom
+  upstream_blocks: []
+  uuid: permissions
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: markdown
+  name: terraform_setup_docs
+  retry_config: null
+  status: updated
+  timeout: null
+  type: markdown
+  upstream_blocks: []
+  uuid: terraform_setup_docs
+- all_upstream_blocks_executed: false
+  color: pink
+  configuration: {}
+  downstream_blocks:
+  - teardown_deployed_resources
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: infrastructure_setup
+  retry_config: null
+  status: updated
+  timeout: null
+  type: custom
+  upstream_blocks:
+  - permissions
+  uuid: infrastructure_setup
+- all_upstream_blocks_executed: false
+  color: purple
+  configuration: {}
+  downstream_blocks:
+  - deploy
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: teardown_deployed_resources
+  retry_config: null
+  status: updated
+  timeout: null
+  type: custom
+  upstream_blocks:
+  - infrastructure_setup
+  uuid: teardown_deployed_resources
+- all_upstream_blocks_executed: false
+  color: yellow
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: deploy
+  retry_config: null
+  status: updated
+  timeout: null
+  type: custom
+  upstream_blocks:
+  - teardown_deployed_resources
+  uuid: deploy
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: markdown
+  name: version_control_docs
+  retry_config: null
+  status: updated
+  timeout: null
+  type: markdown
+  upstream_blocks: []
+  uuid: version_control_docs
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - ci_and_cd
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: version_control
+  retry_config: null
+  status: updated
+  timeout: null
+  type: custom
+  upstream_blocks: []
+  uuid: version_control
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: markdown
+  name: cicd
+  retry_config: null
+  status: updated
+  timeout: null
+  type: markdown
+  upstream_blocks: []
+  uuid: cicd
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: ci_and_cd
+  retry_config: null
+  status: updated
+  timeout: null
+  type: custom
+  upstream_blocks:
+  - version_control
+  uuid: ci_and_cd
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2025-01-02 08:19:26.284575+00:00'
+data_integration: null
+description: This pipeline contains scripts that uses terraform to create and build
+  production architecture in aws
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: deployment_to_production
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags: []
+type: python
+uuid: deployment_to_production
+variables_dir: /home/src/mage_data/notebook
+widgets: []
