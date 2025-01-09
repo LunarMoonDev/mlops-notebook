@@ -3,6 +3,7 @@ from pathlib import Path
 
 import mlflow
 import pandas as pd
+import functools
 from toolz import compose
 
 from sklearn.metrics import mean_squared_error
@@ -16,7 +17,7 @@ from config import config
 ROOT_DIR = Path(__file__).parents[1]
 DATA_DIR = ROOT_DIR / "data"
 EXPERIMENT_NAME = "nyc-green-taxi"
-TRACKING_URI = "http://127.0.0.1:5001"
+TRACKING_URI = "http://127.0.0.1:5000"
 
 def setup_experiment():
     mlflow.set_tracking_uri(TRACKING_URI)
@@ -47,9 +48,11 @@ def feature_selector(df):
 def convert_to_dict(df):
     return df.to_dict(orient="records")
 
+def preprocessor_with_transform(df, transform: tuple = ()):
+    return compose(*transform[::-1])(df)
+
 def feature_pipeline(transforms: tuple = ()):
-    def preprocessor(df):
-        return compose(*transforms[::-1])(df)
+    preprocessor = functools.partial(preprocessor_with_transform, transform=transforms)
     
     return make_pipeline(
         FunctionTransformer(preprocessor),
