@@ -10,17 +10,27 @@ from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import FunctionTransformer
 from sklearn.feature_extraction import DictVectorizer
+from sklearn.pipeline import Pipeline
+from sklearn.base import BaseEstimator
 
 from utils.df_util import plot_duration_histograms
 from config import config
 
 ROOT_DIR = Path(__file__).parents[1]
 DATA_DIR = ROOT_DIR / "data"
-EXPERIMENT_NAME = "nyc-green-taxi"
-TRACKING_URI = "http://127.0.0.1:5000"
+EXPERIMENT_NAME = "nyc-green-taxi-v2"
+ARTIFACT_URI = "s3://mlflow-buckets"
+TRACKING_URI = "http://localhost:5000"
 
 def setup_experiment():
     mlflow.set_tracking_uri(TRACKING_URI)
+
+    try:
+        experiment = mlflow.get_experiment_by_name(EXPERIMENT_NAME)
+        experiment_id = experiment.experiment_id
+    except AttributeError:
+        experiment_id = mlflow.create_experiment(EXPERIMENT_NAME, ARTIFACT_URI)
+
     mlflow.set_experiment(EXPERIMENT_NAME)
 
 def data_dict(debug=False):
@@ -59,6 +69,9 @@ def feature_pipeline(transforms: tuple = ()):
         FunctionTransformer(convert_to_dict),
         DictVectorizer(),
     )
+
+def make_model_pipeline(pipeline: Pipeline, model: BaseEstimator) -> Pipeline:
+    return make_pipeline(pipeline, model)
 
 def mlflow_default_logging(model, model_tag, data, X_train, y_train, X_valid, y_valid):
     # Predict time

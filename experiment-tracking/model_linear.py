@@ -10,10 +10,12 @@ from utils.feature_util import (
     feature_pipeline,
     setup_experiment,
     mlflow_default_logging,
+    make_model_pipeline
 )
 
 setup_experiment()
 data = data_dict(debug=int(os.environ["DEBUG"]))
+# mlflow.sklearn.autolog()
 
 def run(build: bool = False):
     with mlflow.start_run():
@@ -34,14 +36,19 @@ def run(build: bool = False):
         MODEL_TAG = "linear"
         mlflow_default_logging(model, MODEL_TAG, data, X_train, y_train, X_valid, y_valid)
 
+
+        main_pipeline = make_model_pipeline(feature_pipe, model)
+        mlflow.sklearn.log_model(main_pipeline, f'{MODEL_TAG}_pipeline')
+
         if(build):
             with open(f"models/{MODEL_TAG}.bin", "wb") as f_out:
                 pickle.dump((feature_pipe, model), f_out)
+        
 
 if __name__ == "__main__":
     import sys
 
-    if(sys.argv[1] == "build"):
+    if(len(sys.argv) > 1 and sys.argv[1] == "build"):
         run(True)
     else:
         run(False)
