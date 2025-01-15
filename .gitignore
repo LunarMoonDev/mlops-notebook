@@ -10,3 +10,6 @@
 **/mlruns/
 
 **/experiment-tracking/volume/
+**/experiment-tracking/models/
+
+**/mage-pipelines/models/
