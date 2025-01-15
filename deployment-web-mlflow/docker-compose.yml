@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  model-dplymnt:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: model-dplymnt
+    image: model-dplymnt
+    ports:
+      - '9696:9696'
+
+
+networks:
+  app-networks:
+    name: app-networks
+    external: True
