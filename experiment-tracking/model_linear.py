@@ -38,7 +38,7 @@ def run(build: bool = False):
 
 
         main_pipeline = make_model_pipeline(feature_pipe, model)
-        mlflow.sklearn.log_model(main_pipeline, f'{MODEL_TAG}_pipeline')
+        mlflow.sklearn.log_model(main_pipeline, 'model')
 
         if(build):
             with open(f"models/{MODEL_TAG}.bin", "wb") as f_out:
