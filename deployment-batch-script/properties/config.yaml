@@ -1,0 +1,18 @@
+RANDOM_STATE: 0
+
+TARGET: duration
+TARGET_MIN: 1
+TARGET_MAX: 60
+RECORD_ID: "ride_id"
+
+FEATURES:
+  - PULocationID
+  - DOLocationID
+  - trip_distance
+
+CAT_FEATURES:
+  - PULocationID
+  - DOLocationID
+
+NUM_FEATURES:
+  - trip_distance
