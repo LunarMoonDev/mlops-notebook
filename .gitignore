@@ -13,3 +13,6 @@
 **/experiment-tracking/models/
 
 **/mage-pipelines/models/
+
+
+**/.ipynb_checkpoints/
