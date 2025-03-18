@@ -3,6 +3,7 @@ However, here's how you run the notebook via docker-compose
 
 ### Requirements:
 - ensure `AWS_PROFILE` exists
+- ensure model exist in registry (run `model_linear` in `experiment-tracking` project)
 
 ### Running the dockerfile
 - Run the lambda server with `docker compose up`
@@ -11,7 +12,7 @@ However, here's how you run the notebook via docker-compose
     - it should request a kinesis based payload and output the prediction response
 
 
-### For notes, here's how you setup the architecture in aws cli
+### For notes, here's how you setup the architecture in aws cli (RUN THIS WITH AWS SERVER NOT LOCALSTACK)
 #### Create IAM role
 ```bash
 # create role lambda-kinesis-role
@@ -60,18 +61,24 @@ aws lambda list-event-source-mappings --function-name ProcessKinesisRecords --ev
 
 For testing, run the following command to push to kinesis
 ```bash
-aws kinesis put-record --stream-name ${KINESIS_STREAM_INPUT} --partition-key 1 \
+aws kinesis put-record --stream-name ride_predictions --partition-key 1 \
     --data '{
         "ride": {
             "PULocationID": 130,
             "DOLocationID": 205,
             "trip_distance": 3.66
         }, 
-        "ride_id": 156
+        "ride_id": 256
     }'
 ```
 
 #### For outputing to Kinesis stream
+- Create the kinesis output stream with the following command:
+```bash
+# create kinesis stream
+aws kinesis create-stream --stream-name output-stream --shard-count 1
+```
+
 - Create policy for writing to kinesis
 ```json
 {
@@ -83,7 +90,8 @@ aws kinesis put-record --stream-name ${KINESIS_STREAM_INPUT} --partition-key 1 \
         "kinesis:PutRecord",
         "kinesis:PutRecords"
       ],
-      "Resource": "arn:aws:kinesis:<region>:<account-id>:stream/<your-stream-name>"
+      // grab the arn from describing the output-stream
+      "Resource": "arn:aws:kinesis:<region>:<account-id>:stream/<your-stream-name>" 
     }
   ]
 }
@@ -95,13 +103,11 @@ Run the following commnads
 aws iam create-policy --policy-name LambdaKinesisWritePolicy --policy-document file://kinesis-write-policy.json
 # attach policy to our lambda function
 aws iam attach-role-policy --role-name lambda-kinesis-role --policy-arn arn:aws:iam::<account-id>:policy/LambdaKinesisWritePolicy
-# create kinesis stream
-aws kinesis create-stream --stream-name output-stream --shard-count 1
 ```
 
 For testing, run the following command to listen to kinesis
 ```bash
-KINESIS_STREAM_OUTPUT='ride_predictions'
+KINESIS_STREAM_OUTPUT='output-stream'
 SHARD='shardId-000000000000'
 SHARD_ITERATOR=$(aws kinesis get-shard-iterator --shard-id ${SHARD} --shard-iterator-type TRIM_HORIZON --stream-name ${KINESIS_STREAM_OUTPUT} --query 'ShardIterator')
 RESULT=$(aws kinesis get-records --shard-iterator $SHARD_ITERATOR)
