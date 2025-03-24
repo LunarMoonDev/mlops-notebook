@@ -12,7 +12,7 @@ However, here's how you run the notebook via docker-compose
     - it should request a kinesis based payload and output the prediction response
 
 
-### For notes, here's how you setup the architecture in aws cli (RUN THIS WITH AWS SERVER NOT LOCALSTACK)
+### For notes, here's how you setup the architecture in aws cli
 #### Create IAM role
 ```bash
 # create role lambda-kinesis-role
@@ -23,7 +23,7 @@ aws iam attach-role-policy --role-name lambda-kinesis-role --policy-arn arn:aws:
 aws iam get-role --role-name lambda-kinesis-role
 ```
 
-#### Create ECR repository and push the image
+#### Create ECR repository and push the image (can't do this with localstack free ver)
 ```bash
 # create docker image with our dockerfile
 docker build -t stream-model-duration:v1 -f docker/streaming.dockerfile .
